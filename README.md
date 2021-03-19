@@ -41,6 +41,7 @@ int GetFibonacciValue(int index) {
 
 ```C++
 void Init() {
+
   int index = 0;
 
   while (GetFibonacciValue(index + 1) < data::size + 2) {

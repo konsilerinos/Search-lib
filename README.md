@@ -15,6 +15,8 @@
 Реализация на языке С++.
 
 ```C++
+const int size = 15;
+
 int i = 0;
 int p = 0;
 int q = 0;
@@ -44,12 +46,12 @@ void Init() {
 
   int index = 0;
 
-  while (GetFibonacciValue(index + 1) < data::size + 2) {
+  while (GetFibonacciValue(index + 1) < size + 1) {
 
     index++;
   }
 
-  int m = GetFibonacciValue(index + 1) - (data::size + 2);
+  int m = GetFibonacciValue(index + 1) - (size + 1);
 
   i = GetFibonacciValue(index) - m;
 
@@ -100,7 +102,7 @@ template <typename T> int FibonacciSearching(T* array, T value) {
 
       IncIndex();
     }
-    else if (i > data::size) {
+    else if (i >= size) {
       DecIndex();
     }
     else if (array[i] == value) {

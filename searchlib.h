@@ -31,7 +31,7 @@ namespace search_lib {
 
 						IncIndex();
 					}
-					else if (i > data::size) {
+					else if (i >= data::size) {
 						DecIndex();
 					}
 					else if (array[i] == value) {

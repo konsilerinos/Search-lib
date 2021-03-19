@@ -46,12 +46,12 @@ search_lib::aux_fun::ForFibonacciSearching::ForFibonacciSearching() {
 
 	int index = 0;
 
-	while (GetFibonacciValue(index + 1) < data::size + 2) {
+	while (GetFibonacciValue(index + 1) < data::size + 1) {
 
 		index++;
 	}
 
-	int m = GetFibonacciValue(index + 1) - (data::size + 2);
+	int m = GetFibonacciValue(index + 1) - (data::size + 1);
 
 	i = GetFibonacciValue(index) - m;
 

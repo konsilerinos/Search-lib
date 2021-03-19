@@ -159,10 +159,98 @@ namespace search_lib {
 		}
 	}
 
+	template <typename T> int SequentialSearch(T* array, T value) {
+
+		for (int i = 0; i < data::size; i++) {
+
+			if (array[i] == value) {
+
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
 	template <typename T> int FibonacciSearching(T* array, T value) {
 
 		aux_fun::ForFibonacciSearching forFibonacciSearching;
 
 		return forFibonacciSearching.FibonacciSearching(array, value);
+	}
+
+	template <typename T> int BinarySearching(T* array, T value) {
+
+		int left = 0;
+		int right = data::size;
+		int middle = 0;
+
+		while (right - left > 1) {
+
+			middle = (left + right) / 2;
+
+			if (array[middle] < value) {
+
+				left = middle;
+			}
+			else {
+
+				right = middle;
+			}
+		}
+
+		if (array[left] == value) {
+
+			return left;
+		}
+		else if (array[right] == value) {
+
+			return right;
+		}
+		else {
+
+			return -1;
+		}
+	}
+
+	template <typename T> int InterpolationSearching(T* array, T value) {
+
+		int left = 0;
+		int right = data::size - 1;
+
+		while ((array[left] < value) && (array[right] > value)) {
+
+			if (array[left] == array[right]) {
+
+				break;
+			}
+
+			int index = (value - array[left]) * (left - right) / (array[left] - array[right]) + left;
+
+			if (array[index] > value) {
+
+				right = index - 1;
+			}
+			else if (array[index] < value) {
+				left = index + 1;
+			}
+			else {
+
+				return index;
+			}
+		}
+
+		if (array[left] == value) {
+
+			return left;
+		}
+		else if (array[right] == value) {
+
+			return right;
+		}
+		else {
+
+			return -1;
+		}
 	}
 }

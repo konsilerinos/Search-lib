@@ -4,8 +4,9 @@
 
 Поиск:
 1. Последовательный.
-2. Бинарный.
-3. Фибоначчи.
+2. Фибоначчи.
+3. Бинарный.
+4. Интерполяционный.
 
 ## Последовательный поиск
 
@@ -27,50 +28,6 @@ template <typename T> int SequentialSearch(T* array, T value) {
   }
 
   return -1;
-}
-```
-
-## Бинарный поиск
-
-Суть алгоритма: деление отсортированного массива на половины. Массив **должен быть отсортирован**.
-
-Сложность вычислений (худшая): **O(log n)**
-
-Реализация на языке С++
-
-```C++
-template <typename T> int BinarySearching(T* array, T value) {
-
-  int left = 0;
-  int right = data::size;
-  int middle = 0;
-
-  while (right - left > 1) {
-
-    middle = (left + right) / 2;
-
-    if (array[middle] < value) {
-
-      left = middle;
-    }
-    else {
-
-      right = middle;
-    }
-  }
-
-  if (array[left] == value) {
-
-    return left;
-  }
-  else if (array[right] == value) {
-
-    return right;
-  }
-  else {
-
-    return -1;
-  }
 }
 ```
 
@@ -192,11 +149,100 @@ template <typename T> int FibonacciSearching(T* array, T value) {
 }
 ```
 
+## Бинарный поиск
 
+Суть алгоритма: деление отсортированного массива на половины. Массив **должен быть отсортирован**.
 
+Сложность вычислений (худшая): **O(log n)**
 
+Реализация на языке С++
 
+```C++
+template <typename T> int BinarySearching(T* array, T value) {
 
+  int left = 0;
+  int right = data::size;
+  int middle = 0;
+
+  while (right - left > 1) {
+
+    middle = (left + right) / 2;
+
+    if (array[middle] < value) {
+
+      left = middle;
+    }
+    else {
+
+      right = middle;
+    }
+  }
+
+  if (array[left] == value) {
+
+    return left;
+  }
+  else if (array[right] == value) {
+
+    return right;
+  }
+  else {
+
+    return -1;
+  }
+}
+```
+
+## Интеорполяционный поиск
+
+Суть алгоритма: линейная интерполяция для предугадывания индекса искомого элемента. Максимальная эффективность достигается для **(отсортированных массивов)**.
+
+Вычислительная сложность (худшая): **O(n)**
+
+Реализация на языке С++
+
+```C++
+template <typename T> int InterpolationSearching(T* array, T value) {
+
+  int left = 0;
+  int right = size - 1;
+
+  while ((array[left] < value) && (array[right] > value)) {
+
+    if (array[left] == array[right]) {
+
+      break;
+    }
+
+    int index = (value - array[left]) * (left - right) / (array[left] - array[right]) + left;
+
+    if (array[index] > value) {
+
+      right = index - 1;
+    }
+    else if (array[index] < value) {
+      left = index + 1;
+    }
+    else {
+
+      return index;
+    }
+  }
+
+  if (array[left] == value) {
+
+	  return left;
+  }
+  else if (array[right] == value) {
+
+    return right;
+  }
+  else {
+
+    return -1;
+  }
+}
+```
 
 
 

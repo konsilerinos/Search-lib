@@ -2,15 +2,18 @@
 
 #include <iostream>
 #include <iomanip>
+#include <chrono>
+#include <thread>
+#include <ctime>
 
 namespace search_lib {
 
 	namespace data {
 
-		const int size = 15;
+		static int size = 15;
 
-		const int a = 0;
-		const int b = 10;
+		static int a = 0;
+		static int b = 10;
 	}
 
 	namespace aux_fun {
@@ -67,11 +70,56 @@ namespace search_lib {
 		};
 	}
 	
-	namespace begin {
+	namespace create {
+
+		template <typename T> void CreateArray(T*& array) {
+
+			srand(time(NULL));
+
+			array = new T[data::size];
+
+			for (int i = 0; i < data::size; i++) {
+
+				int whole_part = rand() % (data::b - data::a + 1) + data::a;
+				double fractional_part = static_cast<double>(1) / (rand() % (data::b - data::a + 1) + 1);
+
+				array[i] = whole_part + fractional_part;
+			}
+		}
+
+		template <typename T> T* GetArrayCopy(T* array) {
+
+			T* newArray = new T[data::size];
+
+			for (int i = 0; i < data::size; i++) {
+
+				newArray[i] = array[i];
+			}
+
+			return newArray;
+		}
+	}
+
+	namespace print {
+
+		template <typename T> void PrintArray(T array) {
+
+			std::cout << "Array: ";
+
+			for (int i = 0; i < data::size; i++) {
+
+				std::cout << std::fixed << std::setprecision(2) << std::setw(7) << array[i];
+			}
+
+			std::cout << std::endl;
+		}
+	}
+
+	namespace sort {
 
 		namespace aux_fun {
 
-			template <typename T> void Swap(T & digit1, T & digit2) {
+			template <typename T> void Swap(T& digit1, T& digit2) {
 
 				digit1 = digit1 + digit2;
 				digit2 = digit1 - digit2;
@@ -126,40 +174,13 @@ namespace search_lib {
 			}
 		}
 
-		template <typename T> void CreateArray(T*& array) {
-
-			srand(time(NULL));
-
-			array = new T[data::size];
-
-			for (int i = 0; i < data::size; i++) {
-
-				int whole_part = rand() % (data::b - data::a + 1) + data::a;
-				double fractional_part = static_cast<double>(1) / (rand() % (data::b - data::a + 1) + 1);
-
-				array[i] = whole_part + fractional_part;
-			}
-		}
-
-		template <typename T> void PrintArray(T array) {
-
-			std::cout << "Array: ";
-
-			for (int i = 0; i < data::size; i++) {
-
-				std::cout << std::fixed << std::setprecision(2) << std::setw(7) << array[i];
-			}
-
-			std::cout << std::endl;
-		}
-
 		template <typename T> void MergeSorting(T* array) {
 
 			aux_fun::MergeSorting(array, 0, data::size);
 		}
 	}
 
-	template <typename T> int SequentialSearch(T* array, T value) {
+	template <typename T> int SequentialSearching(T* array, T value) {
 
 		for (int i = 0; i < data::size; i++) {
 
@@ -253,4 +274,146 @@ namespace search_lib {
 			return -1;
 		}
 	}
+
+	namespace time {
+
+		namespace aux_fun {
+
+			template <typename T> std::chrono::nanoseconds SequentialSearchingTest(T* array) {
+
+				T value = rand() % (data::b - data::a + 1) + data::a;
+
+				std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now();
+
+				SequentialSearching(array, value);
+
+				std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
+
+				std::chrono::nanoseconds resultTime = std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime);
+
+				return resultTime;
+			}
+			template <typename T> std::chrono::nanoseconds FibonacciSearchingTest(T* array) {
+
+				T value = rand() % (data::b - data::a + 1) + data::a;
+
+				std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now();
+
+				FibonacciSearching(array, value);
+
+				std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
+
+				std::chrono::nanoseconds resultTime = std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime);
+
+				return resultTime;
+			}
+			template <typename T> std::chrono::nanoseconds BinarySearchingTest(T* array) {
+
+				T value = rand() % (data::b - data::a + 1) + data::a;
+
+				std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now();
+
+				BinarySearching(array, value);
+
+				std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
+
+				std::chrono::nanoseconds resultTime = std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime);
+
+				return resultTime;
+			}
+			template <typename T> std::chrono::nanoseconds InterpolationSearchingTest(T* array) {
+
+				T value = rand() % (data::b - data::a + 1) + data::a;
+
+				std::chrono::steady_clock::time_point startTime = std::chrono::steady_clock::now();
+
+				InterpolationSearching(array, value);
+
+				std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
+
+				std::chrono::nanoseconds resultTime = std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime);
+
+				return resultTime;
+			}
+		}
+
+		template <typename T> std::chrono::nanoseconds SequentialSearchingTest(T array, int count) {
+
+			std::chrono::nanoseconds averageTime = std::chrono::nanoseconds(0);
+
+			for (int i = 0; i < count; i++) {
+
+				T arrayCopy = create::GetArrayCopy(array);
+
+				std::this_thread::sleep_for(std::chrono::microseconds(1));
+				averageTime += aux_fun::SequentialSearchingTest(array);
+				std::this_thread::sleep_for(std::chrono::microseconds(1));
+
+				delete[] arrayCopy;
+			}
+
+			averageTime /= count;
+
+			return averageTime;
+		}
+		template <typename T> std::chrono::nanoseconds FibonacciSearchingTest(T array, int count) {
+
+			std::chrono::nanoseconds averageTime = std::chrono::nanoseconds(0);
+
+			for (int i = 0; i < count; i++) {
+
+				T arrayCopy = create::GetArrayCopy(array);
+
+				std::this_thread::sleep_for(std::chrono::microseconds(1));
+				averageTime += aux_fun::FibonacciSearchingTest(array);
+				std::this_thread::sleep_for(std::chrono::microseconds(1));
+
+				delete[] arrayCopy;
+			}
+
+			averageTime /= count;
+
+			return averageTime;
+		}
+		template <typename T> std::chrono::nanoseconds BinarySearchingTest(T array, int count) {
+
+			std::chrono::nanoseconds averageTime = std::chrono::nanoseconds(0);
+
+			for (int i = 0; i < count; i++) {
+
+				T arrayCopy = create::GetArrayCopy(array);
+
+				std::this_thread::sleep_for(std::chrono::microseconds(1));
+				averageTime += aux_fun::BinarySearchingTest(array);
+				std::this_thread::sleep_for(std::chrono::microseconds(1));
+
+				delete[] arrayCopy;
+			}
+
+			averageTime /= count;
+
+			return averageTime;
+		}
+		template <typename T> std::chrono::nanoseconds InterpolationSearchingTest(T array, int count) {
+
+			std::chrono::nanoseconds averageTime = std::chrono::nanoseconds(0);
+
+			for (int i = 0; i < count; i++) {
+
+				T arrayCopy = create::GetArrayCopy(array);
+
+				std::this_thread::sleep_for(std::chrono::microseconds(1));
+				averageTime += aux_fun::InterpolationSearchingTest(array);
+				std::this_thread::sleep_for(std::chrono::microseconds(1));
+
+				delete[] arrayCopy;
+			}
+
+			averageTime /= count;
+
+			return averageTime;
+		}
+	}
+
+
 }

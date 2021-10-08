@@ -244,9 +244,4 @@ template <typename T> int InterpolationSearching(T* array, T value) {
 }
 ```
 
-
-
-
-
-
-
+### ©️ Konsilerinos

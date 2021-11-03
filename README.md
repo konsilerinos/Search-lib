@@ -8,5 +8,5 @@
 
 ## Документация
 
-1. Документация по коду доступна [**здесь**](https://konsilerinos.github.io/Search-lib/Documentation/classSearch.html)
+1. Документация по коду доступна [**здесь**](https://konsilerinos.github.io/Search-lib/Documentation/index.html)
 2. Документация по алгоритмам доступна [**здесь**]()

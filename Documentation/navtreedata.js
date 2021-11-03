@@ -24,7 +24,7 @@
 */
 var NAVTREE =
 [
-  [ "Sort-lib", "index.html", [
+  [ "Search-lib", "index.html", [
     [ "Классы", "annotated.html", [
       [ "Классы", "annotated.html", "annotated_dup" ],
       [ "Алфавитный указатель классов", "classes.html", null ],

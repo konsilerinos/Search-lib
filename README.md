@@ -6,7 +6,6 @@
 2. Фибоначчи
 3. Бинарный
 
-## Документация
+Документация по коду доступна [**здесь**](Documentation)
 
-1. Документация по коду доступна [**здесь**](https://konsilerinos.github.io/Search-lib/Documentation/classSearch.html)
-2. Документация по алгоритмам доступна [**здесь**](https://konsilerinos.gitbook.io/cpp-prog/algorithms/searching)
+© konsilerinos
